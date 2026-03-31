@@ -1,0 +1,1477 @@
+{
+  "info": {
+    "_postman_id": "1a45721d-15af-43d9-aab0-54bdbf27b47b",
+    "name": "Astranosenka collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50966837",
+    "_collection_link": "https://go.postman.co/collection/50966837-1a45721d-15af-43d9-aab0-54bdbf27b47b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Registration",
+      "item": [
+        {
+          "name": "Registration - Valid",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "var jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"token\", jsonData[\"jwt-token\"]);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Invalid Email",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "pm.test(\"BUG: Error message is not 'incorrect format' as per requirements\", function () {\r",
+                  "    pm.expect(jsonData[0].message).to.eql(\"Email should have correct format\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"vlad_mail_ru\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Empty Date of Birth",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"BUG: Error message for Empty Date\", function () {\r",
+                  "    var actualMessage = jsonData[0].message; \r",
+                  "    pm.expect(actualMessage).to.eql(\"The field is required.\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Empty First Name",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"BUG: Error message for empty Name\", function () {\r",
+                  "    var actualMessage = jsonData[0].message; \r",
+                  "    pm.expect(actualMessage).to.eql(\"The field is required.\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Empty Last Name",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.expect(pm.response.code).to.equal(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"BUG: Error message for empty Last Name\", function () {\r",
+                  "    var actualMessage = jsonData[0].message; \r",
+                  "    pm.expect(actualMessage).to.eql(\"The field is required.\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Short Password",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"CRITICAL BUG: Server allows short password and returns token\", function () {\r",
+                  "\r",
+                  "    pm.expect(jsonData['jwt-token']).to.be.undefined;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"1234567\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Registration - Long Password",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Error message for long Password\", function () {\r",
+                  "\r",
+                  "    pm.expect(jsonData['jwt-token']).to.be.undefined;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"123456789012345678901\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "item": [
+        {
+          "name": "Login - Valid",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"token\", jsonData[\"jwt-token\"]);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Empty Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Short Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"1234567\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"vlad_mail_ru\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update Profile",
+      "item": [
+        {
+          "name": "Update - Date of Birth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Date of Birth is updated correctly\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(jsonData.dateOfBirth).to.eql(pm.environment.get(\"taskDate\"));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "let date = moment()\r",
+                  "    .subtract(5, 'years')\r",
+                  "    .subtract(7, 'months')\r",
+                  "    .subtract(23, 'days')\r",
+                  "    .format(\"DD.MM.YYYY\");\r",
+                  "\r",
+                  "pm.environment.set(\"taskDate\", date);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/edit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update - First Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"First Name updated\", function () {\r",
+                  "    const res = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(res.firstName).to.eql(pm.environment.get(\"userName\")+ \"UPD\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "let date = moment()\r",
+                  "    .subtract(5, 'years')\r",
+                  "    .subtract(7, 'months')\r",
+                  "    .subtract(23, 'days')\r",
+                  "    .format(\"DD.MM.YYYY\");\r",
+                  "\r",
+                  "pm.environment.set(\"taskDate\", date);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}UPD\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/edit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update - Last Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Last Name updated\", function () {\r",
+                  "    const res = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(res.lastName).to.eql(pm.environment.get(\"userSurname\")+ \"UPD\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "let date = moment()\r",
+                  "    .subtract(5, 'years')\r",
+                  "    .subtract(7, 'months')\r",
+                  "    .subtract(23, 'days')\r",
+                  "    .format(\"DD.MM.YYYY\");\r",
+                  "\r",
+                  "pm.environment.set(\"taskDate\", date);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}UPD\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/edit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update - Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Profile updated, password not exposed\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.password).to.be.undefined;\r",
+                  "    pm.expect(jsonData.firstName).to.not.be.undefined;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "let date = moment()\r",
+                  "    .subtract(5, 'years')\r",
+                  "    .subtract(7, 'months')\r",
+                  "    .subtract(23, 'days')\r",
+                  "    .format(\"DD.MM.YYYY\");\r",
+                  "\r",
+                  "pm.environment.set(\"taskDate\", date);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/edit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "End to End Flow (E2E)",
+      "item": [
+        {
+          "name": "Valid Registration",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "const randomLetters = pm.variables.replaceIn('{{$randomAlphabeticSearchTerm}}').toLowerCase().substring(0, 10);\r",
+                  "pm.environment.set(\"userName\", \"Uladzislau\" + randomLetters);\r",
+                  "pm.environment.set(\"userSurname\", \"Astranosenka\" + randomLetters);\r",
+                  "\r",
+                  "let currentDate = moment().format(\"YYYY-MM-DDTHH-mm-ss\");\r",
+                  "pm.environment.set(\"userEmail\", \"vladostronosenko\" + \"+\" + currentDate + \"@mail.ru\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "var jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"token\", jsonData[\"jwt-token\"]);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"firstName\": \"{{userName}}\",\r\n  \"lastName\": \"{{userSurname}}\",\r\n  \"email\": \"{{userEmail}}\",\r\n  \"dateOfBirth\": \"22.09.2003\",\r\n  \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/registration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "registration"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Valid Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"token\", jsonData[\"jwt-token\"]);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"{{userEmail}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/public/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "public",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Verify initial profile data\", function () {\r",
+                  "\r",
+                  "    pm.expect(jsonData.firstName).to.eql(pm.environment.get(\"userName\"));\r",
+                  "    pm.expect(jsonData.lastName).to.eql(pm.environment.get(\"userSurname\"));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/view",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "view"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Last Name updated\", function () {\r",
+                  "    const res = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(res.lastName).to.eql(pm.environment.get(\"userSurname\")+ \"UPD\");\r",
+                  "});\r",
+                  "pm.test(\"First Name updated\", function () {\r",
+                  "    const res = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(res.firstName).to.eql(pm.environment.get(\"userName\")+ \"UPD\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Date of Birth is updated correctly\", function () {\r",
+                  "    const jsonData = pm.response.json();\r",
+                  "   \r",
+                  "    pm.expect(jsonData.dateOfBirth).to.eql(pm.environment.get(\"taskDate\"));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const moment = require('moment');\r",
+                  "\r",
+                  "let date = moment()\r",
+                  "    .subtract(5, 'years')\r",
+                  "    .subtract(7, 'months')\r",
+                  "    .subtract(23, 'days')\r",
+                  "    .format(\"DD.MM.YYYY\");\r",
+                  "\r",
+                  "pm.environment.set(\"taskDate\", date);\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}UPD\",\r\n    \"lastName\": \"{{userSurname}}UPD\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/edit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "View Updated Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();\r",
+                  "pm.test(\"Verify data AFTER update\", function () {\r",
+                  "    pm.expect(res.firstName).to.eql(pm.environment.get(\"userName\") + \"UPD\");\r",
+                  "    pm.expect(res.lastName).to.eql(pm.environment.get(\"userSurname\") + \"UPD\");\r",
+                  "    pm.expect(res.dateOfBirth).to.eql(pm.environment.get(\"taskDate\"));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/view",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "view"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 204\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/delete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deleted User Info",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"User is successfully deleted - 401 Unauthorized\", function () {\r",
+                  "    pm.response.to.have.status(401);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"{{userName}}\",\r\n    \"lastName\": \"{{userSurname}}\",\r\n    \"dateOfBirth\": \"{{taskDate}}\",\r\n    \"password\": \"{{userPassword}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/secured/account/view",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "secured",
+                "account",
+                "view"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
